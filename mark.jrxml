@@ -12,11 +12,16 @@
               bottomMargin="0"
               whenNoDataType="AllSectionsNoDetail">
 
+    <!-- ВАЖНО: Пустой запрос, чтобы Jasper не искал БД -->
+    <queryString>
+        <![CDATA[]]>
+    </queryString>
+
     <!-- Шрифты -->
     <property name="net.sf.jasperreports.default.font.name" value="Arial"/>
     <property name="net.sf.jasperreports.default.pdf.font.name" value="Arial"/>
 
-    <!-- Параметры, которые приходят из Честного знака -->
+    <!-- Параметры из Честного знака -->
     <parameter name="code" class="java.lang.String"/>
     <parameter name="name" class="java.lang.String"/>
     <parameter name="composition" class="java.lang.String"/>
@@ -26,7 +31,7 @@
 
     <title>
         <band height="48">
-            <!-- ВЕРХНЯЯ ЧАСТЬ: наименование + состав -->
+            <!-- Наименование + состав -->
             <textField>
                 <reportElement x="0" y="0" width="50" height="8"/>
                 <textElement>
@@ -39,7 +44,7 @@
                 ]]></textFieldExpression>
             </textField>
 
-            <!-- ЦВЕТ -->
+            <!-- Цвет -->
             <textField>
                 <reportElement x="0" y="8" width="50" height="6"/>
                 <textElement>
@@ -50,7 +55,7 @@
                 ]]></textFieldExpression>
             </textField>
 
-            <!-- РАЗМЕР (крупно по центру) -->
+            <!-- Размер (крупно) -->
             <textField>
                 <reportElement x="0" y="14" width="50" height="10"/>
                 <textElement textAlignment="Center">
@@ -61,7 +66,7 @@
                 ]]></textFieldExpression>
             </textField>
 
-            <!-- СТРАНА -->
+            <!-- Страна -->
             <textField>
                 <reportElement x="0" y="24" width="50" height="6"/>
                 <textElement textAlignment="Center">
@@ -72,7 +77,7 @@
                 ]]></textFieldExpression>
             </textField>
 
-            <!-- 🔥 DATA MATRIX КОД (самая важная часть) -->
+            <!-- DATA MATRIX КОД -->
             <image scaleImage="RetainShape" onErrorType="Blank">
                 <reportElement x="10" y="30" width="30" height="18"/>
                 <imageExpression><![CDATA[$P{code}]]></imageExpression>
