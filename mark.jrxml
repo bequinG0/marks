@@ -1,87 +1,130 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
-              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
-              name="light_industry_label_50x48"
-              pageWidth="50"
-              pageHeight="48"
-              columnWidth="50"
-              leftMargin="0"
-              rightMargin="0"
-              topMargin="0"
-              bottomMargin="0"
-              whenNoDataType="AllSectionsNoDetail">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" 
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" 
+              name="Clothing_58x40_Fixed" 
+              pageWidth="164"
+              pageHeight="113"
+              columnWidth="164" 
+              leftMargin="0" 
+              rightMargin="0" 
+              topMargin="0" 
+              bottomMargin="0">
 
-    <!-- ВАЖНО: Пустой запрос, чтобы Jasper не искал БД -->
+    <property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+
     <queryString>
         <![CDATA[]]>
     </queryString>
 
-    <!-- Шрифты -->
-    <property name="net.sf.jasperreports.default.font.name" value="Arial"/>
-    <property name="net.sf.jasperreports.default.pdf.font.name" value="Arial"/>
+    <!-- Поля -->
+    <field name="name" class="java.lang.String"/>
+    <field name="color" class="java.lang.String"/>
+    <field name="size" class="java.lang.String"/>
+    <field name="country" class="java.lang.String"/>
+    <field name="structure" class="java.lang.String"/>
+    <field name="model" class="java.lang.String"/>
+    <field name="dataMatrix" class="java.lang.String"/>
+    <field name="cis" class="java.lang.String"/>
 
-    <!-- Параметры из Честного знака -->
-    <parameter name="code" class="java.lang.String"/>
-    <parameter name="name" class="java.lang.String"/>
-    <parameter name="composition" class="java.lang.String"/>
-    <parameter name="size" class="java.lang.String"/>
-    <parameter name="color" class="java.lang.String"/>
-    <parameter name="country" class="java.lang.String"/>
+    <detail>
+        <!-- ВАЖНО: высота band = pageHeight -->
+        <band height="113">
+            <frame>
+                <reportElement x="0" y="0" width="164" height="113" backcolor="#FFFFFF"/>
+                <box>
+                    <pen lineWidth="0.25"/>
+                </box>
 
-    <title>
-        <band height="48">
-            <!-- Наименование + состав -->
-            <textField>
-                <reportElement x="0" y="0" width="50" height="8"/>
-                <textElement>
-                    <font size="6"/>
-                </textElement>
-                <textFieldExpression><![CDATA[
-                    ($P{name} != null ? $P{name} : "Трусы муж.") + 
-                    " " + 
-                    ($P{composition} != null ? $P{composition} : "100% хлопок")
-                ]]></textFieldExpression>
-            </textField>
+                <!-- Data Matrix (увеличен) -->
+                <componentElement>
+                    <reportElement x="6" y="6" width="50" height="50"/>
+                    <jr:DataMatrix xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" 
+                                   textPosition="bottom" 
+                                   shape="force-square">
+                        <jr:codeExpression><![CDATA[$F{dataMatrix}]]></jr:codeExpression>
+                    </jr:DataMatrix>
+                </componentElement>
 
-            <!-- Цвет -->
-            <textField>
-                <reportElement x="0" y="8" width="50" height="6"/>
-                <textElement>
-                    <font size="6"/>
-                </textElement>
-                <textFieldExpression><![CDATA[
-                    $P{color} != null ? $P{color} : "мультиколор"
-                ]]></textFieldExpression>
-            </textField>
+                <!-- CIS под DataMatrix -->
+                <textField>
+                    <reportElement x="6" y="58" width="50" height="10"/>
+                    <textElement textAlignment="Center">
+                        <font fontName="DejaVu Sans" size="5"/>
+                    </textElement>
+                    <textFieldExpression><![CDATA[$F{cis}]]></textFieldExpression>
+                </textField>
 
-            <!-- Размер (крупно) -->
-            <textField>
-                <reportElement x="0" y="14" width="50" height="10"/>
-                <textElement textAlignment="Center">
-                    <font size="10" isBold="true"/>
-                </textElement>
-                <textFieldExpression><![CDATA[
-                    $P{size} != null ? $P{size} : "ONESIZE"
-                ]]></textFieldExpression>
-            </textField>
+                <!-- НАЗВАНИЕ: первые два слова -->
+                <textField>
+                    <reportElement x="62" y="6" width="96" height="14"/>
+                    <textElement>
+                        <font fontName="DejaVu Sans" size="8" isBold="true"/>
+                    </textElement>
+                    <textFieldExpression><![CDATA[
+                        $F{name} == null ? "" :
+                        ( $F{name}.split(" ").length >= 2 
+                        ? $F{name}.split(" ")[0] + " " + $F{name}.split(" ")[1]
+                        : $F{name}.split(" ")[0] )
+                    ]]></textFieldExpression>
+                </textField>
 
-            <!-- Страна -->
-            <textField>
-                <reportElement x="0" y="24" width="50" height="6"/>
-                <textElement textAlignment="Center">
-                    <font size="6"/>
-                </textElement>
-                <textFieldExpression><![CDATA[
-                    $P{country} != null ? $P{country} : "Турция"
-                ]]></textFieldExpression>
-            </textField>
+                <!-- ЦВЕТ -->
+                <textField>
+                    <reportElement x="62" y="22" width="96" height="10"/>
+                    <textElement>
+                        <font fontName="DejaVu Sans" size="7"/>
+                    </textElement>
+                    <textFieldExpression><![CDATA[
+                        $F{color} != null ? "цв." + $F{color} : ""
+                    ]]></textFieldExpression>
+                </textField>
 
-            <!-- DATA MATRIX КОД -->
-            <image scaleImage="RetainShape" onErrorType="Blank">
-                <reportElement x="10" y="30" width="30" height="18"/>
-                <imageExpression><![CDATA[$P{code}]]></imageExpression>
-            </image>
+                <!-- РАЗМЕР -->
+                <textField>
+                    <reportElement x="62" y="34" width="96" height="12"/>
+                    <textElement textAlignment="Center">
+                        <font fontName="DejaVu Sans" size="9" isBold="true"/>
+                    </textElement>
+                    <textFieldExpression><![CDATA[
+                        $F{size} != null ? $F{size} : ""
+                    ]]></textFieldExpression>
+                </textField>
+
+                <!-- СТРАНА -->
+                <textField>
+                    <reportElement x="62" y="48" width="96" height="10"/>
+                    <textElement>
+                        <font fontName="DejaVu Sans" size="7"/>
+                    </textElement>
+                    <textFieldExpression><![CDATA[
+                        $F{country} != null ? $F{country} : ""
+                    ]]></textFieldExpression>
+                </textField>
+
+                <!-- СОСТАВ -->
+                <textField>
+                    <reportElement x="62" y="60" width="96" height="14"/>
+                    <textElement>
+                        <font fontName="DejaVu Sans" size="7"/>
+                    </textElement>
+                    <textFieldExpression><![CDATA[
+                        $F{structure} != null ? $F{structure} : ""
+                    ]]></textFieldExpression>
+                </textField>
+
+                <!-- АРТИКУЛ -->
+                <textField>
+                    <reportElement x="62" y="76" width="96" height="10"/>
+                    <textElement>
+                        <font fontName="DejaVu Sans" size="7"/>
+                    </textElement>
+                    <textFieldExpression><![CDATA[
+                        $F{model} != null ? "арт." + $F{model} : ""
+                    ]]></textFieldExpression>
+                </textField>
+
+            </frame>
         </band>
-    </title>
+    </detail>
 </jasperReport>
